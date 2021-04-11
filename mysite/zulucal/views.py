@@ -3,7 +3,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
+from django.views.generic import ListView
+from .models import Person
 
 def index(request):
     return HttpResponse("Hello, world. You're at the zulucal index.")
@@ -19,7 +22,8 @@ def calendarDetail(request, calendar):
     return HttpResponse("You're looking at calendar %s." % calendar)
 
 def personList(request):
-    return HttpResponse("You're looking at person list")
+    return PersonList()
+    #return HttpResponse("You're looking at person list")
 
 def personDetail(request, person):
     return HttpResponse("You're looking at person %s." % person)
@@ -48,3 +52,12 @@ def eventRelationList(request):
 def eventRelationDetail(request, eventRelation):
     return HttpResponse("You're looking at event relation %s." % eventRelation)
 
+class PersonList(ListView):
+    model = Person
+    template_name = 'persons/persons.html'
+    context_object_name = 'persons'
+    status_code = 400
+    streaming = 0
+    has_header = 0
+    def request():
+        HttpResponse("You're looking at person list")
